@@ -1,8 +1,7 @@
 {
     "previewName" : "pathoplexus",
-    "target" : "3e12387bb9a947e3ac71d6118433ce5b54071eda",
     "target" : "main",
     "number" : 9999,
     "head_short_sha_7": "3e12387",
-    "host" : "pathoplexus.loculus.org",
+    "host" : "main.pathoplexus.org"
   }
