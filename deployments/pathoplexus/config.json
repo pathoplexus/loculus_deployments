@@ -1,7 +1,7 @@
 {
-    "previewName" : "pathoplexus",
-    "target" : "main",
-    "number" : 9999,
-    "head_short_sha_7": "3e12387",
-    "host" : "main.pathoplexus.org"
-  }
+  "branch" : "main",
+  "number" : 9999,
+  "head_short_sha_7": "3e12387",
+"host" : "main.pathoplexus.org",
+    "previewName" : "pathoplexus"
+}
