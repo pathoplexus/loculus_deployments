@@ -4,6 +4,5 @@
   "number" : 9999,
   "head_short_sha_7": "e297edf",
 "host" : "productiontest.pathoplexus.org",
-    "previewName" : "productiontest",
-  "bannerMessage": "This is a test production environment for penetration testing"
+    "previewName" : "productiontest"
 }
