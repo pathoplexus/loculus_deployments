@@ -1,3 +1,4 @@
+runDevelopmentMainDatabase: false
 secrets:
   smtp-password:
     type: sealedsecret
