@@ -3,6 +3,6 @@
   "target" : "alternative-silo-mount",
   "number" : 9999,
   "head_short_sha_7": "e297edf",
-"host" : "main2.pathoplexus.org",
-    "previewName" : "pathoplexus"
+"host" : "productiontest.pathoplexus.org",
+    "previewName" : "productiontest"
 }
