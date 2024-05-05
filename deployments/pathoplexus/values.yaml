@@ -1,5 +1,7 @@
 runDevelopmentMainDatabase: false
 bannerMessage: This is an environment for penetration testing
+runDevelopmentKeycloakDatabase: false
+runDevelopmentMainDatabase: false
 secrets:
   smtp-password:
     type: sealedsecret
