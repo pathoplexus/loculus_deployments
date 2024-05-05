@@ -1,4 +1,5 @@
 runDevelopmentMainDatabase: false
+bannerMessage: This is an environment for penetration testing
 secrets:
   smtp-password:
     type: sealedsecret
