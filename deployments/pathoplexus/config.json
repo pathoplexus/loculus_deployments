@@ -1,8 +1,8 @@
 {
-  "branch" : "main",
-  "target" : "main",
+  "branch" : "alternative-silo-mount",
+  "target" : "alternative-silo-mount",
   "number" : 9999,
-  "head_short_sha_7": "3e12387",
+  "head_short_sha_7": "e297edf",
 "host" : "main2.pathoplexus.org",
     "previewName" : "pathoplexus"
 }
