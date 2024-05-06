@@ -1,3 +1,182 @@
+defaultOrganisms:
+  mpox:
+    schema:
+      instanceName: "Mpox Virus"
+      image: "https://cdn.who.int/media/images/default-source/health-topics/monkeypox/12763.tmb-1200v.jpg?sfvrsn=cd044fbd_37"
+      description: "Mpox, formerly monkeypox, is a rare viral disease that occurs mainly in remote parts of Central and West Africa, near tropical rainforests. Recently global outbreaks have occurred."
+      metadata:
+        - name: collection_date
+          type: date
+          required: true
+        - name: clade
+          type: string
+          generateIndex: true
+          autocomplete: true
+        - name: outbreak
+          type: string
+          generateIndex: true
+          autocomplete: true
+        - name: lineage
+          type: string
+          generateIndex: true
+          autocomplete: true
+        - name: ncbi_release_date
+          type: date
+          header: "INSDC"
+        - name: country
+          type: string
+          required: true
+          generateIndex: true
+          autocomplete: true
+        - name: isolate_name
+          type: string
+        - name: author_affiliation
+          type: string
+          generateIndex: true
+          autocomplete: true
+        - name: authors
+          type: string
+      inputFields:
+        - name: collection_date
+          displayName: Collection Date
+        - name: clade
+          displayName: Clade
+        - name: outbreak
+          displayName: Outbreak
+        - name: lineage
+          displayName: Lineage
+        - name: ncbi_release_date
+          displayName: NCBI Release Date
+        - name: country
+          displayName: Country
+        - name: isolate_name
+          displayName: Isolate Name
+        - name: author_affiliation
+          displayName: Author Affiliation
+        - name: authors
+          displayName: Authors
+      website:
+        tableColumns:
+          - collection_date
+          - country
+          - clade
+          - lineage
+          - author_affiliation
+          - ncbi_release_date
+        defaultOrderBy: collection_date
+        defaultOrder: descending
+      silo:
+        dateToSortBy: collection_date
+    preprocessing:
+      - version: 1
+        image: ghcr.io/loculus-project/preprocessing-nextclade
+        args:
+          - "prepro"
+        configFile:
+          log_level: DEBUG
+          nextclade_dataset_name: nextstrain/mpox/all-clades
+          nextclade_dataset_tag: 2024-01-16--20-31-02Z
+          genes:
+            OPG001: 247
+          batch_size: 100
+          processing_spec:
+            collection_date:
+              function: process_date
+              inputs:
+                date: collection_date
+                release_date: ncbi_release_date
+              required: true
+            ncbi_release_date:
+              function: parse_timestamp
+              inputs:
+                timestamp: ncbi_release_date
+            clade:
+              function: identity
+              inputs:
+                input: nextclade.clade
+            outbreak:
+              function: identity
+              inputs:
+                input: nextclade.customNodeAttributes.outbreak
+            lineage:
+              function: identity
+              inputs:
+                input: nextclade.customNodeAttributes.lineage
+            country:
+              function: identity
+              inputs:
+                input: country
+              required: true
+            author_affiliation:
+              function: identity
+              inputs:
+                input: author_affiliation
+            authors:
+              function: identity
+              inputs:
+                input: authors
+            isolate_name:
+              function: identity
+              inputs:
+                input: isolate_name
+      - version: 2
+        image: ghcr.io/loculus-project/preprocessing-nextclade
+        args:
+          - "prepro"
+        configFile:
+          log_level: DEBUG
+          nextclade_dataset_name: nextstrain/mpox/all-clades
+          nextclade_dataset_tag: 2024-01-16--20-31-02Z
+          genes:
+            OPG001: 247
+          batch_size: 100
+          processing_spec:
+            collection_date:
+              function: process_date
+              inputs:
+                date: collection_date
+                release_date: ncbi_release_date
+              required: true
+            ncbi_release_date:
+              function: parse_timestamp
+              inputs:
+                timestamp: ncbi_release_date
+            clade:
+              function: identity
+              inputs:
+                input: nextclade.clade
+            outbreak:
+              function: identity
+              inputs:
+                input: nextclade.customNodeAttributes.outbreak
+            lineage:
+              function: identity
+              inputs:
+                input: nextclade.customNodeAttributes.lineage
+            country:
+              function: identity
+              inputs:
+                input: country
+              required: true
+            author_affiliation:
+              function: identity
+              inputs:
+                input: author_affiliation
+            authors:
+              function: identity
+              inputs:
+                input: authors
+            isolate_name:
+              function: identity
+              inputs:
+                input: isolate_name
+    referenceGenomes:
+      nucleotideSequences:
+        - name: "main"
+          sequence: "[[URL:https://cov2tree.nyc3.cdn.digitaloceanspaces.com/mpox]]"
+      genes:
+        - name: OPG001
+          sequence: MKQYIVLACMCLVAAAMPTSLQQSSSSCTEEENKHHMGIDVIIKVTKQDQTPTNDKICQSVTEVTETEDDEVSEEVVKGDPTTYYTIVGAGLNMNFGFTKCPKISSISESSDGNTVNTRLSSVSPGQGKDSPAITREEALAMIKDCEMSIDIRCSEEEKDSDIKTHPVLGSNISHKKVSYKDIIGSTIVDTKCVKNLEFSVRIGDMCEESSELEVKDGFKYVDGSASEGATDDTSLIDSTKLKACV*
 runDevelopmentMainDatabase: false
 bannerMessage: This is an environment for penetration testing
 runDevelopmentKeycloakDatabase: false
