@@ -1,0 +1,7 @@
+{
+  "branch" : "main",
+  "target" : "main",
+  "number" : 123,
+"host" : "temp.pathoplexus.org",
+    "previewName" : "temp"
+}

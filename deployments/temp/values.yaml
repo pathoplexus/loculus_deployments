@@ -1,0 +1,8 @@
+secrets:
+  smtp-password:
+    type: sealedsecret
+    clusterWide: "true"
+    data:
+      secretKey: AgCe0WPKrnWDroWZW/jHyZ0iT0WMa/ekYLcotWrUSU//1dv3Y7+pas36aVVIj5syNF1FbxhDG05BnoGKoOWxW/TnwmKLR92IKCqMOnGy5OXG0h4dvW55UyZqmA96dVhKagb1zoQhn7Nx8QMMsnraTnTYTbaw8on4ixcVvGhxMi/C50bYuexAkgFfPDO3io7Hkg2dfi+kzMKoc4m8Xn+yAOLnGG9RZQuSsj9jyqXYjkYuzgaMBvsmkljVUpvi+Ri04Ojt7JikPoM5e2uorx3K8K6CJ0efPhi+5UijnyGJqMfb4H1NwIRy1GEVetYQLuaPDUnD1Ym/eFIXl9AyiwVPVCb4HiKuEV+oAQU2bSVPgkkl3Zr5EPynBzJCCwO7LhSOUlYXBdv4oHK5cLngN/7mdtdR1lJcBb2SoZQ1lhFDLKKXfbDiiZ/K0ear0bCtwE+pdzRiuJlHPMk61++6jYtajgHPSxyvhrsgocXgGxVYH8uI35vrS1uKkcoECpsPVC3NIHEGM4dDUPU1cSzUnrAWbTDUz+pSmvdsm+6fFY0oWIBJ16mUPkaH/g17VOqLWsmS02H1uSB8dzESLwrmF8oOM5/21zm/YqSCj4V58QeP2gmJnrmfqHvSsw+nWIAEXCM3Qd69zaABNJdp80VCDI2Yj9yYGNqrKomXxgELPIZRpdB/lSshFqD1JhoAFXPs/ZA51ffPnwuV9Fo9d+j/VBNKjE/PbM6y98aiVd1h9dschUqHmA==
+      secrets:
+  
