@@ -3,5 +3,6 @@
   "target" : "main",
   "number" : 123,
 "host" : "temp.pathoplexus.org",
-    "previewName" : "temp"
+    "previewName" : "temp",
+  "head_short_sha_7": "9106d31"
 }
