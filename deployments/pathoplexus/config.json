@@ -1,8 +1,8 @@
 {
   "branch" : "main",
-  "target" : "e1c9d61d7515fbfe41e279020735f00f6cef9522",
+  "target" : "c7b7775322df198bec95eda9eab9bd81f177ee5a",
   "number" : 9999,
-  "head_short_sha_7": "e1c9d61",
+  "head_short_sha_7": "c7b7775",
 "host" : "productiontest.pathoplexus.org",
     "previewName" : "productiontest"
 }
