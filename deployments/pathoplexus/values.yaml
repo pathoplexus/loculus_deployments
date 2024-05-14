@@ -2,6 +2,11 @@ runDevelopmentMainDatabase: false
 bannerMessage: This is an environment for penetration testing
 runDevelopmentKeycloakDatabase: false
 runDevelopmentMainDatabase: false
+defaultOrganisms:
+  mpox:
+    ingest:
+      configFile:
+        subsample_fraction: 1
 secrets:
   smtp-password:
     type: sealedsecret
