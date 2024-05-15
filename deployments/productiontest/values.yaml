@@ -1,5 +1,5 @@
 runDevelopmentMainDatabase: false
-bannerMessage: This is an environment for penetration testing
+bannerMessage: This is a persistent test instance
 runDevelopmentKeycloakDatabase: false
 runDevelopmentMainDatabase: false
 defaultOrganisms:
