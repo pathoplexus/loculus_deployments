@@ -7,6 +7,9 @@ defaultOrganisms:
     ingest:
       configFile:
         subsample_fraction: 1
+dataUseTermsUrls:
+  open: https://demo.pathoplexus.org/docs/data-use-terms
+  restricted: https://demo.pathoplexus.org/docs/data-use-terms
 secrets:
   smtp-password:
     type: sealedsecret
