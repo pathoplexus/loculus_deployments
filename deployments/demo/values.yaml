@@ -5,8 +5,8 @@ defaultOrganisms:
   mpox:
   dummy-organism:
 dataUseTermsUrls:
-  open: https://demo.pathoplexus.org/docs/data-use-terms
-  restricted: https://demo.pathoplexus.org/docs/data-use-terms
+  open: https://demo.pathoplexus.org/governance/data-use-terms
+  restricted: https://demo.pathoplexus.org/governance/data-use-terms
 secrets:
   smtp-password:
     type: sealedsecret
