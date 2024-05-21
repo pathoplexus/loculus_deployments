@@ -1,12 +1,9 @@
 runDevelopmentMainDatabase: false
 bannerMessage: This is a persistent test instance
 runDevelopmentKeycloakDatabase: false
-runDevelopmentMainDatabase: false
 defaultOrganisms:
   mpox:
-    ingest:
-      configFile:
-        subsample_fraction: 1
+  dummy-organism:
 dataUseTermsUrls:
   open: https://demo.pathoplexus.org/docs/data-use-terms
   restricted: https://demo.pathoplexus.org/docs/data-use-terms
