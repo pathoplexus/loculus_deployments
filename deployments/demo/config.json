@@ -1,8 +1,8 @@
 {
   "branch" : "main",
-  "target" : "9447845a74f406c6b170deb1d17cec113a60ab3c",
+  "target" : "6f0f6cc22ce5cad73705add7e4750ab481fb174e",
+  "head_short_sha_7": "6f0f6cc",
   "number" : 9999,
-  "head_short_sha_7": "9447845",
   "host" : "demo.pathoplexus.org",
   "previewName" : "demo"
 }
