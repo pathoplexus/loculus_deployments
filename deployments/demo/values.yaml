@@ -1,6 +1,7 @@
 runDevelopmentMainDatabase: false
 bannerMessage: This is a persistent test instance
 runDevelopmentKeycloakDatabase: false
+disableBackend: true
 defaultOrganisms:
   mpox:
   dummy-organism:
