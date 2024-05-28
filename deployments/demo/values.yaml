@@ -1,6 +1,7 @@
 runDevelopmentMainDatabase: false
 bannerMessage: This is a persistent test instance
 runDevelopmentKeycloakDatabase: false
+additionalHeadHTML: '<script defer data-domain="demo.pathoplexus.org" src="https://plausible.io/js/script.js"></script>'
 defaultOrganisms:
   mpox:
   dummy-organism:
