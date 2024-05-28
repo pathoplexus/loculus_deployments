@@ -4,5 +4,6 @@
   "head_short_sha_7": "09d0f2c",
   "number" : 9998,
   "host" : "demo.pathoplexus.org",
-  "previewName" : "demo"
+  "previewName" : "demo",
+  "dummy": "dummy"
 }
