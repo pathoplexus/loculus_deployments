@@ -8,6 +8,11 @@ dataUseTermsUrls:
   open: https://demo.pathoplexus.org/governance/data-use-terms
   restricted: https://demo.pathoplexus.org/governance/data-use-terms
 secrets:
+  basicauth:
+    type: rawhtpasswd
+    data:
+      username: pathoplexus
+      password: pandasflydispassionately
   smtp-password:
     type: sealedsecret
     clusterWide: "true"
