@@ -1,6 +1,7 @@
 runDevelopmentMainDatabase: false
 bannerMessage: This is a persistent test instance
 runDevelopmentKeycloakDatabase: false
+subdomainSeparator: "."
 defaultOrganisms:
   mpox:
   dummy-organism:
