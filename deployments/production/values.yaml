@@ -1,13 +1,13 @@
 runDevelopmentMainDatabase: false
-bannerMessage: This is a persistent test instance
+bannerMessage: This will become the production instance!
 runDevelopmentKeycloakDatabase: false
 subdomainSeparator: "."
 defaultOrganisms:
   mpox:
   dummy-organism:
 dataUseTermsUrls:
-  open: https://demo.pathoplexus.org/governance/data-use-terms
-  restricted: https://demo.pathoplexus.org/governance/data-use-terms
+  open: https://pathoplexus.org/governance/data-use-terms
+  restricted: https://pathoplexus.org/governance/data-use-terms
 secrets:
   basicauth:
     type: rawhtpasswd
@@ -59,7 +59,7 @@ name: Pathoplexus
 customWebsiteImage: ghcr.io/pathoplexus/website:commit-2bf459c
 # can also use SHA tags like @sha256:c6f58502cb4694b36e3519d5910786fc1c382f87ef806b211ccd0aae43f31449
 accessionPrefix: "PPD_"
-additionalHeadHTML: '<script defer data-domain="demo.pathoplexus.org" src="https://plausible.io/js/script.js"></script>'
+additionalHeadHTML: '<script defer data-domain="pathoplexus.org" src="https://plausible.io/js/script.js"></script>'
 auth:
   smtp:
     host: "in-v3.mailjet.com"
