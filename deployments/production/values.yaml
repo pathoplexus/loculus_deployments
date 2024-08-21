@@ -66,7 +66,7 @@ secrets:
 name: Pathoplexus
 customWebsiteImage: ghcr.io/pathoplexus/website:commit-2bf459c
 # can also use SHA tags like @sha256:c6f58502cb4694b36e3519d5910786fc1c382f87ef806b211ccd0aae43f31449
-accessionPrefix: "PPD_"
+accessionPrefix: "PP_"
 additionalHeadHTML: '<script defer data-domain="pathoplexus.org" src="https://plausible.io/js/script.js"></script>'
 auth:
   smtp:
