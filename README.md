@@ -24,26 +24,9 @@ Example:
 
 ```json
 {
-  "branch": "main",
-  "target": "dccf86fa44482c6a497d11a8857acb231392b42a",
-  "number": 9999,
-  "head_short_sha_7": "dccf86f",
-  "host": "productiontest.pathoplexus.org",
-  "previewName": "productiontest"
+  "branch": "production",
+  "special_environment": "production",
+  "host": "pathoplexus.org",
+  "head_sha": "9130a5840e1ac7ffe198795ba663fdd545b390c3"
 }
-```
-
-### values.yaml
-
-The `values.yaml` file is applied _over_ the default `values.yaml`. Example:
-
-```yaml
-runDevelopmentMainDatabase: false
-bannerMessage: This is an environment for penetration testing
-runDevelopmentKeycloakDatabase: false
-defaultOrganisms:
-  mpox:
-    ingest:
-      configFile:
-        subsample_fraction: 1
 ```
