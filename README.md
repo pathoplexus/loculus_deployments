@@ -1,8 +1,18 @@
-# loculus_deployments
+# Gitops repo for Pathoplexus' Loculus deployments
 
-We have a persistent instance running on AWS at https://demo.pathoplexus.org/ .
-It connects to a managed database running on Amazon RDS.
-It is configured according to https://github.com/pathoplexus/loculus_deployments/tree/main/deployments/pathoplexus and changes to that repo will change it, via ArgoCD sync at https://argocd.pathoplexus.org
+This repo contains gitops data that is read by Argo CD.
+
+It currently defines 3 deployments:
+
+- production
+- staging
+- main
+
+All 3 deployments are persistent and connect to managed databases running on Amazon RDS.
+
+The configuration is done in https://github.com/pathoplexus/loculus_deployments/tree/main/deploy
+
+Changes to this repo will change deployments via ArgoCD sync at https://argocd.pathoplexus.org
 
 ## Config files
 
