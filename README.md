@@ -8,7 +8,9 @@ It currently defines 3 deployments:
 - staging
 - main
 
-All 3 deployments are persistent and connect to managed databases running on Amazon RDS.
+Production and staging deployments are persistent, connected to managed databases running on Amazon RDS.
+
+Main uses an ephemeral database that is set up fresh on every sync.
 
 The configuration is done in https://github.com/pathoplexus/loculus_deployments/tree/main/deploy
 
