@@ -1,0 +1,36 @@
+name: Create PR to Promote Staging to Production
+on:
+  workflow_dispatch:
+
+jobs:
+  create-promotion-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v3
+
+      - name: Get staging SHA
+        id: get_staging_sha
+        run: |
+          STAGING_SHA=$(jq -r '.head_sha' deploy/staging/config.json)
+          echo "STAGING_SHA=$STAGING_SHA" >> $GITHUB_OUTPUT
+
+      - name: Update production config
+        run: |
+          CONFIG_FILE="deploy/production/config.json"
+          jq --arg sha "${{ steps.get_staging_sha.outputs.STAGING_SHA }}" '.head_sha = $sha' $CONFIG_FILE > tmp.json && mv tmp.json $CONFIG_FILE
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Promote staging SHA ${{ steps.get_staging_sha.outputs.STAGING_SHA }} to production"
+          title: "Promote staging to production: ${{ steps.get_staging_sha.outputs.STAGING_SHA }}"
+          body: |
+            ${{ github.actor }} wants to promote the current staging SHA to production.
+            
+            Staging SHA: ${{ steps.get_staging_sha.outputs.STAGING_SHA }}
+            
+            Please review and approve to deploy this version to production.
+          branch: promote-to-production-${{ steps.get_staging_sha.outputs.STAGING_SHA }}
+          base: main
