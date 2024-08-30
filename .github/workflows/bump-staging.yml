@@ -1,0 +1,39 @@
+name: Create PR to bump staging to latest
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v2
+
+      - name: Get latest commit SHA and date from pathoplexus/pathoplexus
+        id: get_commit_info
+        run: |
+          COMMIT_INFO=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/pathoplexus/pathoplexus/commits/main)
+          LATEST_SHA=$(echo $COMMIT_INFO | jq -r .sha)
+          COMMIT_DATE=$(echo $COMMIT_INFO | jq -r .commit.author.date)
+          echo "LATEST_SHA=$LATEST_SHA" >> $GITHUB_OUTPUT
+          echo "COMMIT_DATE=$COMMIT_DATE" >> $GITHUB_OUTPUT
+
+      - name: Update config.json
+        run: |
+          CONFIG_FILE="deploy/staging/config.json"
+          jq --arg sha "${{ steps.get_commit_info.outputs.LATEST_SHA }}" '.head_sha = $sha' $CONFIG_FILE > tmp.json && mv tmp.json $CONFIG_FILE
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Bump staging to ${{ steps.get_commit_info.outputs.LATEST_SHA }}"
+          title: "Bump staging to ${{ steps.get_commit_info.outputs.LATEST_SHA }}"
+          body: |
+            ${{ github.actor }} wants to bump the staging deployment to ${{ steps.get_commit_info.outputs.LATEST_SHA }}.
+            From ${{ steps.get_commit_info.outputs.COMMIT_DATE }}
+            URL: https://github.com/pathoplexus/pathoplexus/commit/${{ steps.get_commit_info.outputs.LATEST_SHA }}
+          branch: staging-${{ steps.get_commit_info.outputs.LATEST_SHA }}
+          base: main
