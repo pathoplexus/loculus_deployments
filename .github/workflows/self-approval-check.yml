@@ -13,20 +13,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check if deploy/production/config.json changed
-        id: check-file-changed
+      - name: Check for changes in sensitive files
+        id: check-files-changed
         uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            const sensitiveFiles = [
+              'deploy/production/config.json',
+              '.github/workflows/self-approval-check.yml',
+              '.github/workflows/promote-staging-to-production.yml'
+            ];
             const { data: files } = await github.rest.pulls.listFiles({
               owner: context.repo.owner,
               repo: context.repo.name,
               pull_number: context.issue.number
             });
-            const configFileChanged = files.some(file => file.filename === 'deploy/production/config.json');
-            console.log('deploy/production/config.json changed:', configFileChanged);
-            return configFileChanged;
+            const changedSensitiveFiles = files
+              .filter(file => sensitiveFiles.includes(file.filename))
+              .map(file => file.filename);
+            console.log('Changed sensitive files:', changedSensitiveFiles);
+            return changedSensitiveFiles.length > 0 ? changedSensitiveFiles : null;
 
       - name: Check if PR from GitHub Actions is self-approved
         id: check-self-approval
