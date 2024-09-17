@@ -1,4 +1,4 @@
-name: Sync Demo Hash with Production
+name: Create PR to Sync Demo Hash with Production
 
 on:
   workflow_dispatch:
