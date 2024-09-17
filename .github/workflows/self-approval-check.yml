@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
   pull_request_review:
-    types: [submitted]
+    types: [submitted, edited, dismissed]
 
 jobs:
   check-pr-self-approval:
@@ -13,13 +13,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+            deploy/production/config.json
+            .github/workflows/self-approval-check.yml
+            .github/workflows/promote-staging-to-production.yml
+
       - name: Check if PR from GitHub Actions is self-approved
         id: check-self-approval
+        if: steps.changed-files.outputs.any_changed == 'true'
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_BODY: ${{ github.event.pull_request.body }}
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
         run: |
+          CHANGED_FILES="${{ steps.changed-files.outputs.all_changed_files }}"
+          echo "Changed sensitive files: $CHANGED_FILES"
           # Check if PR is created by GitHub Actions
           if [[ "$PR_AUTHOR" == "github-actions[bot]" ]]; then
             echo "PR created by GitHub Actions, extracting actor from body..."
@@ -51,8 +63,11 @@ jobs:
 
       - name: PR Self-Approval Status
         run: |
-          if [[ ${{ steps.check-self-approval.outcome }} == 'failure' ]]; then
-            echo "::error::This PR was created by GitHub Actions and has been self-approved. This is not allowed for security reasons."
+          if [[ ${{ steps.changed-files.outputs.any_changed }} != 'true' ]]; then
+            echo "No sensitive files were changed. No self-approval check needed."
+          elif [[ ${{ steps.check-self-approval.outcome }} == 'failure' ]]; then
+            echo "::error::This PR changes sensitive files and prohibits self-review for security reasons."
+            echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
             exit 1
           else
             echo "PR self-approval check passed."
