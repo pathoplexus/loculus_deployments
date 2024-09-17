@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get staging SHA
         id: get_staging_sha
