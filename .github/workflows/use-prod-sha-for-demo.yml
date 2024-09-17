@@ -31,7 +31,7 @@ jobs:
           commit-message: "Bump demo SHA to production SHA ${{ steps.get_production_sha.outputs.PRODUCTION_SHA }}"
           title: "Bump demo to production: ${{ steps.get_production_sha.outputs.PRODUCTION_SHA }}"
           body: |
-            This PR automatically syncs the demo environment with the current production SHA.
+            This PR syncs the demo environment with the current production SHA.
             
             Production SHA: ${{ steps.get_production_sha.outputs.PRODUCTION_SHA }}
             
