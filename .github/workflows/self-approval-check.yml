@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
   pull_request_review:
-    types: [submitted]
+    types: [submitted, edited, dismissed]
 
 jobs:
   check-pr-self-approval:
@@ -13,8 +13,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Check if deploy/production/config.json changed
+        id: check-file-changed
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.name,
+              pull_number: context.issue.number
+            });
+            const configFileChanged = files.some(file => file.filename === 'deploy/production/config.json');
+            console.log('deploy/production/config.json changed:', configFileChanged);
+            return configFileChanged;
+
       - name: Check if PR from GitHub Actions is self-approved
         id: check-self-approval
+        if: steps.check-file-changed.outputs.result == 'true'
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_BODY: ${{ github.event.pull_request.body }}
@@ -52,8 +68,10 @@ jobs:
       - name: PR Self-Approval Status
         run: |
           if [[ ${{ steps.check-self-approval.outcome }} == 'failure' ]]; then
-            echo "::error::This PR was created by GitHub Actions and has been self-approved. This is not allowed for security reasons."
+            echo "::error::This PR was created by GitHub Actions, changes deploy/production/config.json, and has been self-approved. This is not allowed for security reasons."
             exit 1
+          elif [[ ${{ steps.check-file-changed.outputs.result }} != 'true' ]]; then
+            echo "deploy/production/config.json was not changed. No self-approval check needed."
           else
             echo "PR self-approval check passed."
           fi
