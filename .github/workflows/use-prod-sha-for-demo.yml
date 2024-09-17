@@ -1,0 +1,40 @@
+name: Create PR to Sync Demo Hash with Production
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-demo-hash:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get production SHA
+        id: get_production_sha
+        run: |
+          PRODUCTION_SHA=$(jq -r '.head_sha' deploy/production/config.json)
+          echo "PRODUCTION_SHA=$PRODUCTION_SHA" >> $GITHUB_OUTPUT
+
+      - name: Update demo config
+        run: |
+          CONFIG_FILE="deploy/demo/config.json"
+          jq --arg sha "${{ steps.get_production_sha.outputs.PRODUCTION_SHA }}" '.head_sha = $sha' $CONFIG_FILE > tmp.json && mv tmp.json $CONFIG_FILE
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Bump demo SHA to production SHA ${{ steps.get_production_sha.outputs.PRODUCTION_SHA }}"
+          title: "Bump demo to production: ${{ steps.get_production_sha.outputs.PRODUCTION_SHA }}"
+          body: |
+            This PR syncs the demo environment with the current production SHA.
+            
+            Production SHA: ${{ steps.get_production_sha.outputs.PRODUCTION_SHA }}
+            
+            Please review and approve to update the demo environment.
+          branch: sync-demo-with-production-${{ steps.get_production_sha.outputs.PRODUCTION_SHA }}
+          base: main
