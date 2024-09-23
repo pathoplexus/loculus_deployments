@@ -2,13 +2,14 @@
 
 This repo contains gitops data that is read by Argo CD.
 
-It currently defines 3 deployments:
+It currently defines 4 deployments:
 
 - production (https://pathoplexus.org)
-- staging (currently https://demo.pathoplexus.org)
-- main (currently https://prev-main.pathoplexus.org)
+- demo (currently https://demo.pathoplexus.org)
+- staging (currently https://staging.pathoplexus.org)
+- main (currently https://preview-main.pathoplexus.org)
 
-Production and staging deployments are persistent, connected to managed databases running on Amazon RDS.
+Production, demo and staging deployments are persistent, connected to managed databases running on Amazon RDS.
 
 Main uses an ephemeral database that is set up fresh on every sync.
 
