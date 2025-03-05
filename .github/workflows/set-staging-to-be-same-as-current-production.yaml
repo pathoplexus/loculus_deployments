@@ -1,0 +1,37 @@
+name: Set staging SHA to same as current production SHA
+on:
+  workflow_dispatch:
+
+jobs:
+  rollback-staging:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.confirmation == 'CONFIRM' }}
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v4
+      
+      - name: Get production SHA
+        id: get_production_sha
+        run: |
+          PRODUCTION_SHA=$(jq -r '.head_sha' deploy/production/config.json)
+          echo "PRODUCTION_SHA=$PRODUCTION_SHA" >> $GITHUB_OUTPUT
+      
+      - name: Update staging config
+        run: |
+          CONFIG_FILE="deploy/staging/config.json"
+          jq --arg sha "${{ steps.get_production_sha.outputs.PRODUCTION_SHA }}" '.head_sha = $sha' $CONFIG_FILE > tmp.json && mv tmp.json $CONFIG_FILE
+      
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Set staging to production SHA ${{ steps.get_production_sha.outputs.PRODUCTION_SHA }}"
+          title: "Set staging to production SHA: ${{ steps.get_production_sha.outputs.PRODUCTION_SHA }}"
+          body: |
+            ${{ github.actor }} has initiated a rollback of staging to match the current production SHA.
+            
+            Production SHA: ${{ steps.get_production_sha.outputs.PRODUCTION_SHA }}
+            
+            Please review and approve to setting staging to this version.
+          branch: staging-${{ steps.get_production_sha.outputs.PRODUCTION_SHA }}
+          base: main
