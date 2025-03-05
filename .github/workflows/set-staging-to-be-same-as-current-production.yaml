@@ -1,11 +1,10 @@
-name: Set staging SHA to same as current production SHA
+name: Create PR to set staging SHA to same as current production SHA
 on:
   workflow_dispatch:
 
 jobs:
   rollback-staging:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.confirmation == 'CONFIRM' }}
     steps:
       - name: Checkout current repository
         uses: actions/checkout@v4
