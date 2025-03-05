@@ -1,4 +1,4 @@
-name: Set staging SHA to same as current production SHA
+name: Create PR to set staging SHA to same as current production SHA
 on:
   workflow_dispatch:
 
