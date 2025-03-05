@@ -5,7 +5,6 @@ on:
 jobs:
   rollback-staging:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.confirmation == 'CONFIRM' }}
     steps:
       - name: Checkout current repository
         uses: actions/checkout@v4
