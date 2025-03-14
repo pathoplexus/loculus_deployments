@@ -1,39 +1,75 @@
 name: Create PR to bump staging to latest
-
 on:
   workflow_dispatch:
-
 jobs:
   update-config:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current repository
         uses: actions/checkout@v4
-
+        
+      - name: Get current SHA
+        id: get_current_sha
+        run: |
+          CURRENT_SHA=$(jq -r '.head_sha' deploy/staging/config.json)
+          echo "CURRENT_SHA=$CURRENT_SHA" >> $GITHUB_OUTPUT
+          
       - name: Get latest commit SHA and date from pathoplexus/pathoplexus
         id: get_commit_info
         run: |
           COMMIT_INFO=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/pathoplexus/pathoplexus/commits/main)
           LATEST_SHA=$(echo $COMMIT_INFO | jq -r .sha)
+          LATEST_SHA_SHORT=${LATEST_SHA:0:6}
           COMMIT_DATE=$(echo $COMMIT_INFO | jq -r .commit.author.date)
           echo "LATEST_SHA=$LATEST_SHA" >> $GITHUB_OUTPUT
+          echo "LATEST_SHA_SHORT=$LATEST_SHA_SHORT" >> $GITHUB_OUTPUT
           echo "COMMIT_DATE=$COMMIT_DATE" >> $GITHUB_OUTPUT
-
+          echo "BRANCH_NAME=staging-$LATEST_SHA_SHORT" >> $GITHUB_OUTPUT
+          
+      - name: Clone pathoplexus repository for changelog
+        run: |
+          git clone https://github.com/pathoplexus/pathoplexus.git pathoplexus_repo
+          
+      - name: Generate changelog
+        id: changelog
+        run: |
+          cd pathoplexus_repo
+          CURRENT_SHA="${{ steps.get_current_sha.outputs.CURRENT_SHA }}"
+          LATEST_SHA="${{ steps.get_commit_info.outputs.LATEST_SHA }}"
+          
+          if [ -z "$CURRENT_SHA" ] || [ "$CURRENT_SHA" == "null" ]; then
+            echo "No current SHA found, using the last 20 commits"
+            CHANGELOG=$(git log --pretty=format:"- %s" -n 20)
+          else
+            CHANGELOG=$(git log --pretty=format:"- %s" $CURRENT_SHA..$LATEST_SHA)
+          fi
+          
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" | sed 's/.*#\([0-9]\+\)[^#]*$/- pathoplexus\/pathoplexus#\1/' >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+      - name: Remove temporary pathoplexus_repo
+        run: rm -rf pathoplexus_repo
+        
       - name: Update config.json
         run: |
           CONFIG_FILE="deploy/staging/config.json"
           jq --arg sha "${{ steps.get_commit_info.outputs.LATEST_SHA }}" '.head_sha = $sha' $CONFIG_FILE > tmp.json && mv tmp.json $CONFIG_FILE
-
+          
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Bump staging to ${{ steps.get_commit_info.outputs.LATEST_SHA }}"
-          title: "Bump staging to ${{ steps.get_commit_info.outputs.LATEST_SHA }}"
+          commit-message: "Bump staging to https://github.com/pathoplexus/pathoplexus/commit/${{ steps.get_commit_info.outputs.LATEST_SHA }}"
+          title: "Bump staging to ${{ steps.get_commit_info.outputs.LATEST_SHA_SHORT }}"
           body: |
-            ${{ github.actor }} wants to bump the staging deployment to ${{ steps.get_commit_info.outputs.LATEST_SHA }}.
-            From ${{ steps.get_commit_info.outputs.COMMIT_DATE }}
-            URL: https://github.com/pathoplexus/pathoplexus/commit/${{ steps.get_commit_info.outputs.LATEST_SHA }}
-          branch: staging-${{ steps.get_commit_info.outputs.LATEST_SHA }}
-          base: main
+            @${{ github.actor }} wants to update the staging deployment from https://github.com/pathoplexus/pathoplexus/commit/${{ steps.get_current_sha.outputs.CURRENT_SHA }} to https://github.com/pathoplexus/pathoplexus/commit/${{ steps.get_commit_info.outputs.LATEST_SHA }}.
+            
+            Commit date: ${{ steps.get_commit_info.outputs.COMMIT_DATE }}
+            
+            ### Changelog
+            ${{ steps.changelog.outputs.CHANGELOG }}
+            
+            ### Comparison
+            https://github.com/pathoplexus/pathoplexus/compare/${{ steps.get_current_sha.outputs.CURRENT_SHA }}...${{ steps.get_commit_info.outputs.LATEST_SHA }}
