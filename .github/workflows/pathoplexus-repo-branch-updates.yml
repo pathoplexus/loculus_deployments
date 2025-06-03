@@ -1,0 +1,45 @@
+name: Sync Deployed SHAs to pathoplexus Branches
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'deploy/*/config.json'
+  workflow_dispatch:
+jobs:
+  update-branches:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout loculus_deployments
+        uses: actions/checkout@v4
+      - name: Extract SHAs
+        id: extract-shas
+        run: |
+          for env in production staging demo; do
+            sha=$(jq -r '.head_sha // empty' deploy/$env/config.json)
+            if [ -n "$sha" ]; then
+              echo "$env=$sha" >> "$GITHUB_OUTPUT"
+            else
+              echo "Warning: No SHA found for $env" >&2
+            fi
+          done
+      - name: Update Branches
+        env:
+            # Needs write permissions on pathoplexus/pathoplexus repo
+            GH_TOKEN: ${{ secrets.PATHOPLEXUS_PATHOPLEXUS_CONTENTS_WRITE_TOKEN }}
+        run: |
+          update_branch() {
+            local branch="env/$1"
+            local sha="$2"
+
+            local TARGET_REPO=pathoplexus/pathoplexus
+            gh api -X PATCH "repos/$TARGET_REPO/git/refs/heads/$branch" -f sha="$sha" -F force=true 2>/dev/null || \
+            gh api -X POST "repos/$TARGET_REPO/git/refs" -f ref="refs/heads/$branch" -f sha="$sha"
+
+            echo "Updated $branch to $sha"
+          }
+
+          [ -n "${{ steps.extract-shas.outputs.production }}" ] && update_branch production "${{ steps.extract-shas.outputs.production }}"
+          [ -n "${{ steps.extract-shas.outputs.staging }}" ] && update_branch staging "${{ steps.extract-shas.outputs.staging }}"
+          [ -n "${{ steps.extract-shas.outputs.demo }}" ] && update_branch demo "${{ steps.extract-shas.outputs.demo }}"
