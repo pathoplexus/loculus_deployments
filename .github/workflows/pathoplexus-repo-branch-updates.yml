@@ -7,7 +7,7 @@ on:
       - '.github/workflows/pathoplexus-repo-branch-updates.yml'
   workflow_dispatch:
 jobs:
-  update-branches:
+  update-pathoplexus-branches:
     runs-on: ubuntu-latest
     permissions:
       contents: read
