@@ -1,9 +1,10 @@
-name: Sync Deployed SHAs to pathoplexus Branches
+name: Sync deployed SHAs to pathoplexus branches
 on:
   push:
     branches: [main]
     paths:
       - 'deploy/*/config.json'
+      - '.github/workflows/pathoplexus-repo-branch-updates.yml'
   workflow_dispatch:
 jobs:
   update-branches:
@@ -27,7 +28,7 @@ jobs:
       - name: Update Branches
         env:
             # Needs write permissions on pathoplexus/pathoplexus repo
-            GH_TOKEN: ${{ secrets.PATHOPLEXUS_PATHOPLEXUS_CONTENTS_WRITE_TOKEN }}
+            GH_TOKEN: ${{ secrets.PATHOPLEXUS_PATHOPLEXUS_CONTENTS_WRITE }}
         run: |
           update_branch() {
             local branch="env/$1"
