@@ -70,7 +70,7 @@ We can then rollout a new commit to staging, via PR in this repo:
 gh workflow run bump-staging.yml -R pathoplexus/loculus_deployments
 ```
 
-Merge it, then check again (after a few minutes) that integrity/regression tests look good (rerun the snipped from above).
+Merge it, then check again (after a few minutes) that integrity/regression tests look good (rerun the snippet from above).
 
 Once that's done, you can (after reviewing everything looks healthy and testing new features) deploy to production through PR triggered by:
 
