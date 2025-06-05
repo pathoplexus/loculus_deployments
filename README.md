@@ -36,7 +36,7 @@ Example:
 
 ## Staging rollout procedure
 
-To rollout to staging, we want to first make staging be identical with prod. Thus, we clone to prod db to staging, then restart the backend on the cloned db:
+To rollout to staging, we want to first make staging be identical with prod. Thus, we clone the prod db to staging, then restart the backend on the cloned db:
 
 ```sh
 ssh bastion "cd pathoplexus/scripts/db-clone/ && ./clone-prod-to-staging.sh"
