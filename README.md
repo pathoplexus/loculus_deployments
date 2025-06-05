@@ -36,6 +36,16 @@ Example:
 
 ## Staging rollout procedure
 
+<details>
+<summary>ssh config to use `ssh bastion`</summary>
+```
+Host bastion
+  HostName XXX.XXX.XXX.XXX
+  User ec2-user
+  IdentityFile YOUR_PATH_TO_KEY.pem
+```
+</details>
+
 To rollout to staging, we want to first make staging be identical with prod. Thus, we clone the prod db to staging, then restart the backend on the cloned db:
 
 ```sh
