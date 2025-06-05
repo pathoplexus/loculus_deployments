@@ -46,12 +46,26 @@ Host bastion
 ```
 </details>
 
-To rollout to staging, we want to first make staging be identical with prod. Thus, we clone the prod db to staging, then restart the backend on the cloned db:
+### Set staging to prod commit (only required if staging is not on prod commit)
+
+To rollout to staging, we want to first make staging be identical with prod. 
+
+When staging is not on the same commit as prod, first change the commit pointed to by prod to staging. You can use a workflow to create the PR for this:
+
+```sh
+gh workflow run set-staging-to-be-same-as-current-production.yaml -R pathoplexus/loculus_deployments
+```
+
+### Clone prod db to staging
+
+Thus, we clone the prod db to staging, then restart the backend on the cloned db:
 
 ```sh
 ssh bastion "cd pathoplexus/scripts/db-clone/ && ./clone-prod-to-staging.sh"
 kubectl rollout restart deployment/loculus-backend -n staging
 ```
+
+### Check staging is identical to prod
 
 We then make sure that staging really is identical to prod by running the integrity script from `pathoplexus/pathoplexus`:
 
@@ -64,13 +78,19 @@ cat  results/*.diff
 
 The result is expected to be just empty lines.
 
+### Point staging at main's commit
+
 We can then rollout a new commit to staging, via PR in this repo:
 
 ```sh
 gh workflow run bump-staging.yml -R pathoplexus/loculus_deployments
 ```
 
-Merge it, then check again (after a few minutes) that integrity/regression tests look good (rerun the snippet from above).
+### Check staging doesn't differ from prod (or only as expected)
+
+Check again (after a few minutes) that integrity/regression tests look good (rerun the snippet from above).
+
+### Promote to production
 
 Once that's done, you can (after reviewing everything looks healthy and testing new features) deploy to production through PR triggered by:
 
