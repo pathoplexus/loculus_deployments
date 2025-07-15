@@ -56,6 +56,18 @@ When staging is not on the same commit as prod, first change the commit pointed 
 gh workflow run set-staging-to-be-same-as-current-production.yaml -R pathoplexus/loculus_deployments
 ```
 
+To get the PR's number run:
+
+```sh
+gh pr list
+```
+
+then merge with:
+
+```sh
+gh pr merge --admin --squash <PR_NUMBER>
+```
+
 ### Clone prod db to staging
 
 Thus, we clone the prod db to staging, then restart the backend on the cloned db:
