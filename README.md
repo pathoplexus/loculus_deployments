@@ -59,13 +59,13 @@ gh workflow run set-staging-to-be-same-as-current-production.yaml -R pathoplexus
 To get the PR's number run:
 
 ```sh
-gh pr list
+gh pr list -R pathoplexus/loculus_deployments
 ```
 
 then merge with:
 
 ```sh
-gh pr merge --admin --squash <PR_NUMBER>
+gh pr merge -R pathoplexus/loculus_deployments --admin --squash <PR_NUMBER>
 ```
 
 ### Clone prod db to staging
