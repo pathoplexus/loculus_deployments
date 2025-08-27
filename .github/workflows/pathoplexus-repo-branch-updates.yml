@@ -13,7 +13,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout loculus_deployments
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Extract SHAs
         id: extract-shas
         run: |
