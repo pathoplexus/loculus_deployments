@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       
       - name: Get production SHA
         id: get_production_sha
