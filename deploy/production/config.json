@@ -1,6 +1,6 @@
 {
   "branch": "production",
   "special_environment": "production",
-  "host": "pathoplexus.org",
+  "host": "new.pathoplexus.org",
   "head_sha": "efa833933834f3b7df94b2f4c0f326bca474f92f"
 }
