@@ -1,6 +1,6 @@
 {
   "branch": "staging",
   "special_environment": "staging",
-  "head_sha": "d52b14ee8f0a6fa8becbe6c36602feff278ba819",
+  "head_sha": "afa50fc33d40301c62a1d73a37ba57c307cab85d",
   "host": "staging.pathoplexus.org"
 }
