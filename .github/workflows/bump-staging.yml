@@ -89,12 +89,12 @@ jobs:
             ### Standard checklist:
 
             - [ ] Run regression tests, highlight any observed differences and discuss why they are expected. If the new version includes new preprocessing pipeline versions: wait for reprocessing to finish and for all new SILO pods to come up first
-            - [ ] Confirm submit/revise/revoke flow works:
+            - [ ] Confirm submit/revise/revoke flow works (also pay close attention to the UI, document anything out of the ordinary):
                 - [ ] Submit test data to the staging preview
-                  - [ ] Confirm submission goes through (paste AccessionVersion(s) here)
-                - [ ] Revise a test sequence (paste AccessionVersion here)
+                  - [ ] Confirm submission goes through (_paste AccessionVersion(s) here_)
+                - [ ] Revise a test sequence (_paste AccessionVersion here_)
                   - [ ] Confirm revision goes through
-                - [ ] Revoke a test sequence (paste AccessionVersion here)
+                - [ ] Revoke a test sequence (_paste AccessionVersion here_)
                   - [ ] Confirm revocation goes through
 
             ### Rollout-specific checklist:
