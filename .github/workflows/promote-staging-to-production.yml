@@ -32,5 +32,10 @@ jobs:
             Staging SHA: ${{ steps.get_staging_sha.outputs.STAGING_SHA }}
             
             Please review and approve to deploy this version to production.
+
+            ## Pre-merge checklists
+
+            The PR opened by [the workflow to bump staging to the latest Pathoplexus version](https://github.com/pathoplexus/loculus_deployments/actions/workflows/bump-staging.yml) provides a checklists of what to test on staging before promoting staging to production. Please copy the completed checklist here so it can be reviewed.
+
           branch: promote-to-production-${{ steps.get_staging_sha.outputs.STAGING_SHA }}
           base: main

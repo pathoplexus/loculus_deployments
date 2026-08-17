@@ -73,3 +73,22 @@ jobs:
             
             ### Comparison
             https://github.com/pathoplexus/pathoplexus/compare/${{ steps.get_current_sha.outputs.CURRENT_SHA }}...${{ steps.get_commit_info.outputs.LATEST_SHA }}
+
+            ## Post-merge checklists
+
+            After merging this PR, work through these checks (or provide justification for anything that was skipped) to confirm functionality and data integrity of Pathoplexus under the new version.
+
+            ### Standard checklist:
+
+            - [ ] Run regression tests, highlight any observed differences here and discuss why they are expected. If the new version includes new preprocessing pipeline versions: wait for reprocessing to finish and for all new SILO pods to come up first
+            - [ ] Confirm submit/revise/revoke flow works:
+                - [ ] Submit test data to the staging preview
+                  - [ ] Confirm submission goes through (paste AccessionVersion(s) here)
+                - [ ] Revise a test sequence (paste AccessionVersion here)
+                  - [ ] Confirm revision goes through
+                - [ ] Revoke a test sequence (paste AccessionVersion here)
+                  - [ ] Confirm revocation goes through
+
+            ### Rollout-specific checklist:
+
+            Document any checks that were performed to test newly added features, database surgeries, etc. here.
