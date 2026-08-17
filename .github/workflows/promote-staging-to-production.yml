@@ -35,7 +35,7 @@ jobs:
 
             ## Pre-merge checklists
 
-            The PR opened by [the workflow to bump staging to the latest Pathoplexus version](https://github.com/pathoplexus/loculus_deployments/actions/workflows/bump-staging.yml) provides a checklists of what to test on staging before promoting staging to production. Please copy the completed checklist here so it can be reviewed.
+            - [ ] The new Pathoplexus version was tested on staging with standard regression testing (_paste a link to the staging PR here_)
 
           branch: promote-to-production-${{ steps.get_staging_sha.outputs.STAGING_SHA }}
           base: main
