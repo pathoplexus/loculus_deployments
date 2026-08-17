@@ -32,5 +32,10 @@ jobs:
             Staging SHA: ${{ steps.get_staging_sha.outputs.STAGING_SHA }}
             
             Please review and approve to deploy this version to production.
+
+            ## Pre-merge checklists
+
+            - [ ] The new Pathoplexus version was tested on staging with standard regression testing (_paste a link to the staging PR here_)
+
           branch: promote-to-production-${{ steps.get_staging_sha.outputs.STAGING_SHA }}
           base: main
