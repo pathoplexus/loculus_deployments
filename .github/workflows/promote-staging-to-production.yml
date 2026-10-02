@@ -35,7 +35,15 @@ jobs:
 
             ## Pre-merge checklists
 
-            - [ ] The new Pathoplexus version was tested on staging with standard regression testing (_paste a link to the staging PR here_)
+            - [ ] The new Pathoplexus version was tested on staging with standard regression testing (_paste a link to the bump-staging PR that deployed this exact SHA here_)
+            - [ ] That PR's post-merge checklist is complete, including submit/revise/revoke, or the reason a step was skipped
+            - [ ] DB surgeries run on prod: counts re-checked on prod today, dry run, run, actual counts recorded (_link db-surgery PRs, or "none"_)
+
+            ## Post-merge checklist
+
+            - [ ] Argo CD `loculus-pp-production` Synced/Healthy
+            - [ ] Every organism serves only its new `pipelineVersion`; no `No lineage definition URL` in silo-importer logs; no new backend errors
+            - [ ] Staging checks repeated against prod after reprocessing (_results here_)
 
           branch: promote-to-production-${{ steps.get_staging_sha.outputs.STAGING_SHA }}
           base: main

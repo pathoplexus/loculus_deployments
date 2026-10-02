@@ -79,8 +79,9 @@ jobs:
             Before merging this PR and bumping the staging version, clone the production database to staging and confirm this was successful:
 
             - [ ] DB clone: `ssh bastion "cd pathoplexus/scripts/db-clone/ && ./clone-prod-to-staging.sh"`
-            - [ ] Restart staging backend: `kubectl rollout restart deployment/loculus-backend -n staging`
+            - [ ] Restart staging backend: `kubectl --context <eks-context> rollout restart deployment/loculus-backend -n staging` (clone finished at _UTC time_)
             - [ ] Run regressions tests to confirm staging is now identical to production (you will need to wait for SILO pods to import any new data)
+            - [ ] Run DB surgeries on staging, dry run first (_link db-surgery PRs, or "none"_)
 
             ## Post-merge checklists
 
@@ -89,6 +90,8 @@ jobs:
             ### Standard checklist:
 
             - [ ] Run regression tests, highlight any observed differences and discuss why they are expected. If the new version includes new preprocessing pipeline versions: wait for reprocessing to finish and for all new SILO pods to come up first
+            - [ ] Explain every staging-only and prod-only row by its submitted/released time against the clone and bump times
+            - [ ] Check newly added organisms separately (not in the regression suite): LAPIS count, search page
             - [ ] Confirm submit/revise/revoke flow works (also pay close attention to the UI, document anything out of the ordinary):
                 - [ ] Submit test data to the staging preview
                   - [ ] Confirm submission goes through (_paste AccessionVersion(s) here_)
