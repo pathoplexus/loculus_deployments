@@ -70,11 +70,11 @@ gh pr merge -R pathoplexus/loculus_deployments --admin --squash <PR_NUMBER>
 
 ### Clone prod db to staging
 
-Thus, we clone the prod db to staging, then restart the backend on the cloned db:
+Thus, we clone the prod db to staging, then restart Keycloak and the backend on the cloned db (the clone replaces Keycloak's realm data under it, so its caches are stale):
 
 ```sh
 ssh bastion "cd pathoplexus/scripts/db-clone/ && ./clone-prod-to-staging.sh"
-kubectl rollout restart deployment/loculus-backend -n staging
+kubectl rollout restart deployment/loculus-keycloak deployment/loculus-backend -n staging
 ```
 
 ### Check staging is identical to prod
